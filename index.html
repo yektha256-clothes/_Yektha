@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Yektha - Mobile Premium</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #fcfcfc;
+      --card-bg: #ffffff;
+      --text: #1a1a1a;
+      --accent: #000000;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Mobile Optimized Header --- */
+    header {
+      background: #fff;
+      padding: 15px 10px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    h1 { 
+      margin: 0; 
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; 
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+    }
+    h1 span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: revealLetter 0.8s forwards;
+    }
+    h1 span:nth-child(1) { animation-delay: 0.1s; }
+    h1 span:nth-child(2) { animation-delay: 0.2s; }
+    h1 span:nth-child(3) { animation-delay: 0.3s; }
+    h1 span:nth-child(4) { animation-delay: 0.4s; }
+    h1 span:nth-child(5) { animation-delay: 0.5s; }
+    h1 span:nth-child(6) { animation-delay: 0.6s; }
+    
+    @keyframes revealLetter {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .brand-line {
+      width: 0;
+      height: 1.5px;
+      background: var(--accent);
+      margin: 5px auto 12px auto;
+      animation: growLine 1s ease-out forwards;
+      animation-delay: 0.8s;
+    }
+    @keyframes growLine {
+      to { width: 40px; }
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 4px;
+      border: 1px solid #eee;
+      background: #f8f8f8;
+      font-size: 0.8rem;
+      outline: none;
+      text-align: center;
+    }
+
+    /* --- Smooth Category Scroller --- */
+    .cat-container {
+      background: #fff;
+      padding: 10px 0;
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding-left: 10px;
+      scrollbar-width: none;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .cat-container::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+      padding: 6px 15px;
+      background: transparent;
+      color: #999;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      border: none;
+    }
+    .cat-btn.active { color: #000; border-bottom: 2px solid #000; }
+
+    /* --- Perfect Mobile Grid --- */
+    .container { 
+      padding: 8px; /* വശങ്ങളിലെ ഗ്യാപ്പ് കുറച്ചു */
+    }
+
+    main { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 8px; /* പ്രോഡക്റ്റുകൾക്കിടയിലെ ഗ്യാപ്പ് */
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid #efefef;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .card img { width: 100%; aspect-ratio: 1/1.2; object-fit: cover; }
+
+    /* Space 0 Styling */
+    .info { padding: 6px; }
+    .info h4 { 
+      margin: 0; 
+      font-size: 0.75rem; 
+      font-weight: 400; 
+      line-height: 1.1; 
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .price { 
+      display: block;
+      font-weight: 700; 
+      font-size: 0.95rem; 
+      margin: 0;
+      padding: 2px 0;
+    }
+    .rating { 
+      font-size: 0.6rem; 
+      margin: 0;
+      padding-bottom: 4px;
+    }
+
+    .buy-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 100%;
+    }
+
+    /* --- Mobile Full-Screen Modal --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: #ffffff; /* ഫുൾ വൈറ്റ് ഫോൺ ആപ്പ് ഫീൽ */
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      width: 100%;
+      min-height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 15px; top: 15px;
+      font-size: 24px;
+      background: rgba(255,255,255,0.8);
+      width: 35px; height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .modal-img {
+      width: 100%;
+      max-height: 50vh;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      background-color: #f9f9f9;
+    }
+    
+    .modal-info { 
+        padding: 20px; 
+        text-align: left; /* മൊബൈലിൽ ലെഫ്റ്റ് അലൈൻ ആണ് നല്ലത് */
+    }
+    
+    .modal-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4rem;
+        margin: 0;
+    }
+
+    .modal-buy-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      width: 100%;
+      padding: 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 20px;
+      position: sticky;
+      bottom: 20px;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: #999;
+      border: none;
+      width: 100%;
+      padding: 15px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>
+  <span>Y</span><span>E</span><span>K</span><span>T</span><span>H</span><span>A</span>
+</h1>
+  <div class="brand-line"></div>
+  <input type="text" id="search" placeholder="Search curated products..." class="search-bar">
+</header>
+
+<div class="cat-container" id="categories"></div>
+
+<div class="container">
+  <main id="products-grid">
+    <div id="loading" style="grid-column: 1/-1; text-align: center; padding: 100px; color: #ccc; font-size: 0.7rem;">LOADING...</div>
+  </main>
+</div>
+
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modalImg" src="">
+    <div class="modal-info">
+      <h2 id="modalName" class="modal-name"></h2>
+      <div id="modalPrice" class="price" style="font-size:1.3rem; margin-top:5px;"></div>
+      <div id="modalRating" class="rating" style="font-size: 0.7rem;"></div>
+      
+      <p style="font-size: 0.8rem; color: #666; line-height: 1.5; margin-top: 15px;">
+        Premium quality product curated by Yektha. Click the button below to complete your order via WhatsApp.
+      </p>
+
+      <button id="modalCartBtn" class="modal-buy-btn">ORDER ON WHATSAPP</button>
+      <button class="back-btn" onclick="closeModal()">← BACK TO COLLECTION</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SHEET_ID = '1HyGFrTu37DJ4u9mxx2vK0aBC5B_yqViRGESUEkV34aU'; 
+  const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+  let allProducts = [];
+
+  async function fetchProducts() {
+    try {
+      const response = await fetch(SHEET_URL);
+      const text = await response.text();
+      const jsonText = text.match(/google\.visualization\.Query\.setResponse\((.*)\)/)[1];
+      const data = JSON.parse(jsonText);
+      const rows = data.table.rows;
+
+      allProducts = rows.map(row => ({
+        name: row.c[0] ? row.c[0].v : 'Product',
+        price: row.c[1] ? row.c[1].v : '0',
+        rating: row.c[2] ? row.c[2].v : '⭐⭐⭐⭐',
+        category: row.c[3] ? row.c[3].v : 'General',
+        photo: row.c[4] ? row.c[4].v : 'https://via.placeholder.com/500'
+      }));
+
+      setupCategories();
+      displayProducts(allProducts);
+    } catch (e) {
+      document.getElementById('products-grid').innerHTML = "<div style='grid-column:1/-1; text-align:center;'>Error loading.</div>";
+    }
+  }
+
+  function displayProducts(products) {
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = products.map(p => `
+      <div class="card" onclick="openModal('${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.rating}', '${p.photo}')">
+        <img src="${p.photo}" loading="lazy">
+        <div class="info">
+          <h4>${p.name}</h4>
+          <span class="price">₹${p.price}</span>
+          <div class="rating">${p.rating}</div>
+        </div>
+        <button class="buy-btn">VIEW</button>
+      </div>
+    `).join('');
+  }
+
+  function setupCategories() {
+    const categoriesDiv = document.getElementById('categories');
+    const uniqueCats = ['All', ...new Set(allProducts.map(p => p.category))];
+    categoriesDiv.innerHTML = uniqueCats.map(c => `
+      <div class="cat-btn ${c==='All'?'active':''}" onclick="filter('${c}', this)">${c}</div>
+    `).join('');
+  }
+
+  function filter(cat, btn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat === 'All' ? allProducts : allProducts.filter(p => p.category === cat);
+    displayProducts(filtered);
+  }
+
+  function openModal(name, price, rating, photo) {
+    document.getElementById('modalName').innerText = name;
+    document.getElementById('modalPrice').innerText = '₹' + price;
+    document.getElementById('modalRating').innerText = rating;
+    document.getElementById('modalImg').src = photo;
+    
+    document.getElementById('modalCartBtn').onclick = () => {
+      const wpNumber = "7594069256";
+      const msg = encodeURIComponent(`Hello Yektha! I'm interested in: ${name} (₹${price})`);
+      window.open(`https://wa.me/${wpNumber}?text=${msg}`, "_blank");
+    };
+
+    document.getElementById('productModal').style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() { 
+    document.getElementById('productModal').style.display = "none"; 
+    document.body.style.overflow = "auto";
+  }
+
+  document.getElementById('search').oninput = e => {
+    const val = e.target.value.toLowerCase();
+    displayProducts(allProducts.filter(p => p.name.toLowerCase().includes(val)));
+  };
+
+  fetchProducts();
+</script>
+
+</body>
+</html>
+
+
