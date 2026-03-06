@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Yektha - Clothes</title>
+  
   <link rel="icon" type="image/jpeg" href="./logo.jpeg">
   <link rel="apple-touch-icon" sizes="1024x1024" href="./logo.jpeg">
   <link rel="shortcut icon" href="./logo.jpeg">
@@ -126,7 +127,6 @@
       display: grid; 
       grid-template-columns: repeat(2, 1fr); /* Mobile: 2 items */
       gap: 10px;
-      padding-bottom: 50px;
     }
 
     /* Laptop Screen (Desktop) Optimization */
@@ -177,19 +177,16 @@
       background: #fff;
       width: 90%;
       max-width: 450px; 
-      margin: 20px auto;
-      border-radius: 12px;
+      margin: 40px auto;
+      border-radius: 8px;
       position: relative;
-      display: block;
-      overflow-y: visible;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     @media (max-width: 600px) {
-      .modal-content {
-        width: 100%;
-        margin: 0;
-        min-height: 100vh;
-        border-radius: 0; }
+      .modal-content { width: 100%; margin: 0; max-width: 100%; border-radius: 0; min-height: 100%; }
     }
 
     .close-modal {
@@ -202,7 +199,7 @@
     }
 
     .modal-img { width: 100%; max-height: 450px; object-fit: cover; }
-    .modal-info { padding: 20px; padding-bottom: 80px; }
+    .modal-info { padding: 20px; }
     .modal-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
     .modal-buy-btn {
       background: #000; color: #fff; border: none;
@@ -314,10 +311,6 @@
   }
 
   function openModal(name, price, rating, photo) {
-    const modal = document.getElementById('productModal');
-    modal.style.display = "block";
-    modal.scrollTop = 0;
-    
     document.getElementById('modalName').innerText = name;
     document.getElementById('modalPrice').innerText = '₹' + price;
     document.getElementById('modalRating').innerText = rating;
@@ -348,6 +341,3 @@
 
 </body>
 </html>
-
-
-
