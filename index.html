@@ -169,16 +169,18 @@
       z-index: 2000;
       left: 0; top: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      background: #ffffff;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .modal-content {
       background: #fff;
-      width: 90%;
+      width: 100%;
       max-width: 450px; 
-      margin: 40px auto;
-      border-radius: 8px;
+      margin: 0 auto;
+      min-height: 100vh;
+      border-radius: 2px;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -321,9 +323,11 @@
       const msg = encodeURIComponent(`Hello Yektha! I'm interested in: ${name} (₹${price})`);
       window.open(`https://wa.me/${wpNumber}?text=${msg}`, "_blank");
     };
-
-    document.getElementById('productModal').style.display = "block";
+    const modal = document.getElementById('productModal');
+    modal.style.display = "block";
+    modal.scrollTop = 0;
     document.body.style.overflow = "hidden";
+
   }
 
   function closeModal() { 
@@ -341,3 +345,4 @@
 
 </body>
 </html>
+
